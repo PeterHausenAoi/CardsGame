@@ -1,5 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.controllers;
 
+import com.github.PeterHausenAoi.CardsGame.models.Player;
 import com.github.PeterHausenAoi.CardsGame.services.PlayerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +14,10 @@ public class PlayerController {
     }
 
     @PostMapping(value = "/", produces = "application/json")
-    public String createPlayer(@PathVariable Long gameID){
-        return "";
+    public Player createPlayer(@PathVariable Long gameID) throws Exception {
+        Player player = new Player();
+        playerService.save(player, gameID);
+        return player;
     }
 
     @DeleteMapping(value = "/{playerID}", produces = "application/json")

@@ -61,7 +61,7 @@ CREATE TABLE shoe_cards (
 
 ALTER TABLE deck_cards ADD CONSTRAINT fk_deck_cards_card_suit_id FOREIGN KEY (card_suit_id) REFERENCES card_suits(id);
 ALTER TABLE deck_cards ADD CONSTRAINT fk_deck_cards_card_value_id FOREIGN KEY (card_value_id) REFERENCES card_values(id);
-ALTER TABLE deck_cards ADD CONSTRAINT fk_deck_cards_card_deck_id FOREIGN KEY (deck_id) REFERENCES deck_cards(id);
+ALTER TABLE deck_cards ADD CONSTRAINT fk_deck_cards_card_deck_id FOREIGN KEY (deck_id) REFERENCES decks(id);
 
 ALTER TABLE players ADD CONSTRAINT fk_players_game_id FOREIGN KEY (game_id) REFERENCES games(id);
 

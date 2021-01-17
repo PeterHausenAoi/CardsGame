@@ -2,6 +2,7 @@ package com.github.PeterHausenAoi.CardsGame.models;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "shoe_decks")
@@ -13,6 +14,9 @@ public class ShoeDeck extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shoe_id", nullable = false)
     private Shoe shoe;
+
+    @OneToMany(mappedBy = "shoeDeck", fetch = FetchType.LAZY)
+    private Set<ShoeCard> shoeCards;
 
     public ShoeDeck() {
     }
@@ -46,6 +50,14 @@ public class ShoeDeck extends BaseEntity{
 
     public void setShoe(Shoe shoe) {
         this.shoe = shoe;
+    }
+
+    public Set<ShoeCard> getShoeCards() {
+        return shoeCards;
+    }
+
+    public void setShoeCards(Set<ShoeCard> shoeCards) {
+        this.shoeCards = shoeCards;
     }
 
     @Override

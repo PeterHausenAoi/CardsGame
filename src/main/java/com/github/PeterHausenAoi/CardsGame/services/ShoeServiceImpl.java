@@ -53,13 +53,23 @@ public class ShoeServiceImpl implements ShoeService {
             throw new Exception("deck already added to game");
         }
 
+        Long maxOrdinalPosition = -1L;
+
+        for(ShoeDeck shoeDeck : game.getShoe().getShoeDecks()){
+            for (ShoeCard shoeCard : shoeDeck.getShoeCards()){
+                if (shoeCard.getOrdinalPosition() > maxOrdinalPosition){
+                    maxOrdinalPosition = shoeCard.getOrdinalPosition();
+                }
+            }
+        }
+
         ShoeDeck shoeDeck = new ShoeDeck(deck, game.getShoe());
         shoeDeckRepository.save(shoeDeck);
 
         List<ShoeCard> shoeCards = new ArrayList<>();
 
         for (DeckCard deckCard : deck.getDeckCards()){
-            shoeCards.add(new ShoeCard(shoeDeck, deckCard, null, 0L, false));
+            shoeCards.add(new ShoeCard(shoeDeck, deckCard, null, ++maxOrdinalPosition, false));
         }
 
         shoeCardRepository.saveAll(shoeCards);

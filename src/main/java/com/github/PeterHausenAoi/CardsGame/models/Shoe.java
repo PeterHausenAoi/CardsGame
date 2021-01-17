@@ -11,7 +11,7 @@ public class Shoe extends BaseEntity {
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;
 
-    @OneToMany(mappedBy = "shoe", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "shoe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<ShoeDeck> shoeDecks;
 
     public Shoe() {

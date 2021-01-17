@@ -6,6 +6,8 @@ import com.github.PeterHausenAoi.CardsGame.repositories.GameRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.ShoeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class GameServiceImpl implements GameService{
     private final GameRepository gameRepository;
@@ -24,5 +26,18 @@ public class GameServiceImpl implements GameService{
         shoeRepository.save(shoe);
 
         return gameRepository.save(game);
+    }
+
+    @Override
+    public void delete(Long gameID) throws Exception {
+        Optional<Game> optGame = gameRepository.findById(gameID);
+
+        if (!optGame.isPresent()){
+            //TODO make exception
+            throw new Exception("game not found");
+        }
+
+        Game game = optGame.get();
+        gameRepository.delete(game);
     }
 }

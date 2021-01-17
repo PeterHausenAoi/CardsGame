@@ -1,5 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -8,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "games")
 public class Game extends BaseEntity {
-    @OneToOne(mappedBy = "game")
+    @OneToOne(mappedBy = "game", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Shoe Shoe;
 
     public Game() {

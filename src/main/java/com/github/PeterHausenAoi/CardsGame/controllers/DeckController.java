@@ -1,5 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.controllers;
 
+import com.github.PeterHausenAoi.CardsGame.models.Deck;
 import com.github.PeterHausenAoi.CardsGame.services.DeckService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,12 @@ public class DeckController {
     }
 
     @PostMapping(value = "/", produces = "application/json")
-    public String createDeck(){
-        // TODO return new deck POJO
-        return "";
+    public Deck createDeck(){
+
+        Deck deck = new Deck();
+        deckService.save(deck);
+
+        return deck;
     }
 
 }

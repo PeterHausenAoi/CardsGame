@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
-import com.github.PeterHausenAoi.CardsGame.models.Game;
+import com.github.PeterHausenAoi.CardsGame.models.entities.Game;
 import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
 
 public interface GameService{

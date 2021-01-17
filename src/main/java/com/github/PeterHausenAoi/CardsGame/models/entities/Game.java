@@ -1,9 +1,8 @@
-package com.github.PeterHausenAoi.CardsGame.models;
+package com.github.PeterHausenAoi.CardsGame.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity

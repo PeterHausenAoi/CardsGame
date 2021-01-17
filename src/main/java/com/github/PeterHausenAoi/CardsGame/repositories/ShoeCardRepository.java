@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.repositories;
 
-import com.github.PeterHausenAoi.CardsGame.models.ShoeCard;
+import com.github.PeterHausenAoi.CardsGame.models.entities.ShoeCard;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

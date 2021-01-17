@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.repositories;
 
-import com.github.PeterHausenAoi.CardsGame.models.CardSuit;
+import com.github.PeterHausenAoi.CardsGame.models.entities.CardSuit;
 import com.github.PeterHausenAoi.CardsGame.models.messages.UndealtCardMeta;
 import com.github.PeterHausenAoi.CardsGame.models.messages.UndealtSuitMeta;
 import org.springframework.data.jpa.repository.Query;

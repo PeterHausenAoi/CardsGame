@@ -1,12 +1,11 @@
-package com.github.PeterHausenAoi.CardsGame.models;
+package com.github.PeterHausenAoi.CardsGame.models.entities;
 
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "shoe_decks")
-public class ShoeDeck extends BaseEntity{
+public class ShoeDeck extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deck_id", nullable = false)
     private Deck deck;

@@ -1,7 +1,7 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
-import com.github.PeterHausenAoi.CardsGame.models.Game;
-import com.github.PeterHausenAoi.CardsGame.models.Shoe;
+import com.github.PeterHausenAoi.CardsGame.models.entities.Game;
+import com.github.PeterHausenAoi.CardsGame.models.entities.Shoe;
 import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
 import com.github.PeterHausenAoi.CardsGame.repositories.GameRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.ShoeRepository;

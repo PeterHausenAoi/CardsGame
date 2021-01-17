@@ -1,9 +1,9 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
-import com.github.PeterHausenAoi.CardsGame.models.CardSuit;
-import com.github.PeterHausenAoi.CardsGame.models.CardValue;
-import com.github.PeterHausenAoi.CardsGame.models.Deck;
-import com.github.PeterHausenAoi.CardsGame.models.DeckCard;
+import com.github.PeterHausenAoi.CardsGame.models.entities.CardSuit;
+import com.github.PeterHausenAoi.CardsGame.models.entities.CardValue;
+import com.github.PeterHausenAoi.CardsGame.models.entities.Deck;
+import com.github.PeterHausenAoi.CardsGame.models.entities.DeckCard;
 import com.github.PeterHausenAoi.CardsGame.repositories.CardSuitRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.CardValueRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.DeckCardRepository;

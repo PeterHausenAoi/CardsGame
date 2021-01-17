@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.repositories;
 
-import com.github.PeterHausenAoi.CardsGame.models.ShoeDeck;
+import com.github.PeterHausenAoi.CardsGame.models.entities.ShoeDeck;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

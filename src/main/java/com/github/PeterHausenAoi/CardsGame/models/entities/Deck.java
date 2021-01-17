@@ -1,15 +1,14 @@
-package com.github.PeterHausenAoi.CardsGame.models;
+package com.github.PeterHausenAoi.CardsGame.models.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "decks")
-public class Deck extends BaseEntity{
+public class Deck extends BaseEntity {
     @OneToMany(mappedBy = "deck", fetch = FetchType.LAZY)
     private Set<DeckCard> deckCards;
 

@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
-import com.github.PeterHausenAoi.CardsGame.models.Player;
+import com.github.PeterHausenAoi.CardsGame.models.entities.Player;
 import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
 import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerCard;
 import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerState;

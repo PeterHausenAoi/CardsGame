@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.repositories;
 
-import com.github.PeterHausenAoi.CardsGame.models.Player;
+import com.github.PeterHausenAoi.CardsGame.models.entities.Player;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

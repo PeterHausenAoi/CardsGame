@@ -1,4 +1,4 @@
-package com.github.PeterHausenAoi.CardsGame.models;
+package com.github.PeterHausenAoi.CardsGame.models.entities;
 
 import javax.persistence.*;
 import java.util.Objects;

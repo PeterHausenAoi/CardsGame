@@ -1,9 +1,8 @@
-package com.github.PeterHausenAoi.CardsGame.models;
+package com.github.PeterHausenAoi.CardsGame.models.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Objects;
 
 @Entity
 @Table(name = "card_values")

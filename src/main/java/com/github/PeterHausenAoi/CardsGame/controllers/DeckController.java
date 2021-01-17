@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.controllers;
 
-import com.github.PeterHausenAoi.CardsGame.models.Deck;
+import com.github.PeterHausenAoi.CardsGame.models.entities.Deck;
 import com.github.PeterHausenAoi.CardsGame.services.DeckService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

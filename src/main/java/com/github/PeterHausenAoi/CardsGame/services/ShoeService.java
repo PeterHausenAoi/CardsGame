@@ -1,6 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
-import com.github.PeterHausenAoi.CardsGame.models.ShoeCard;
+import com.github.PeterHausenAoi.CardsGame.models.entities.ShoeCard;
 import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
 import com.github.PeterHausenAoi.CardsGame.models.exceptions.ValidationException;
 

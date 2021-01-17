@@ -2,6 +2,7 @@ package com.github.PeterHausenAoi.CardsGame.controllers;
 
 import com.github.PeterHausenAoi.CardsGame.models.Player;
 import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerCard;
+import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerState;
 import com.github.PeterHausenAoi.CardsGame.services.PlayerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/states", produces = "application/json")
-    public String getPlayerStates(@PathVariable Long gameID){
-        return "";
+    public List<PlayerState> getPlayerStates(@PathVariable Long gameID) throws Exception {
+        return playerService.getPlayerStates(gameID);
     }
 }

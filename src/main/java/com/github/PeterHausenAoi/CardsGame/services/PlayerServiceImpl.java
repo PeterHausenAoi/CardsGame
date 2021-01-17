@@ -2,14 +2,13 @@ package com.github.PeterHausenAoi.CardsGame.services;
 
 import com.github.PeterHausenAoi.CardsGame.models.Game;
 import com.github.PeterHausenAoi.CardsGame.models.Player;
-import com.github.PeterHausenAoi.CardsGame.models.ShoeCard;
 import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerCard;
+import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerState;
 import com.github.PeterHausenAoi.CardsGame.repositories.GameRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.PlayerRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.ShoeCardRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,20 +59,26 @@ public class PlayerServiceImpl implements PlayerService{
 
         Player player = optPlayer.get();
 
-        List<PlayerCard> playerCards = new ArrayList<>();
+        return player.getShoeCards().stream().map(shoeCard ->
+                new PlayerCard(shoeCard.getDeckCard().getCardSuit().getName(),
+                        shoeCard.getDeckCard().getCardValue().getName(),
+                        shoeCard.getDeckCard().getCardValue().getValue())).collect(Collectors.toList());
+    }
 
-        for (ShoeCard shoeCard : player.getShoeCards()){
-            playerCards.add(new PlayerCard(shoeCard.getDeckCard().getCardSuit().getName(),
-                    shoeCard.getDeckCard().getCardValue().getName(),
-                    shoeCard.getDeckCard().getCardValue().getValue()));
+    @Override
+    public List<PlayerState> getPlayerStates(Long gameID) throws Exception {
+        Optional<Game> optGame = gameRepository.findById(gameID);
+
+        if (!optGame.isPresent()){
+            //TODO make exception
+            throw new Exception("game not found");
         }
 
-        return playerCards;
+        List<Player> players = playerRepository.findAllByGameId(optGame.get().getId());
 
-        // stackoverflow ???
-        //        return player.getShoeCards().stream().map(shoeCard ->
-        //                new PlayerCard(shoeCard.getDeckCard().getCardSuit().getName(),
-        //                        shoeCard.getDeckCard().getCardValue().getName(),
-        //                        shoeCard.getDeckCard().getCardValue().getValue())).collect(Collectors.toList());
+        return players.stream().map(player -> new PlayerState(
+                player.getId(),
+                player.getShoeCards().stream().mapToLong(value -> value.getDeckCard().getCardValue().getValue()).sum()
+        )).collect(Collectors.toList());
     }
 }

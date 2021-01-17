@@ -2,7 +2,7 @@ package com.github.PeterHausenAoi.CardsGame.models.messages;
 
 import java.io.Serializable;
 
-public class PlayerCard implements Serializable {
+public final class PlayerCard implements Serializable {
     private final String suit;
     private final String value;
     private final Integer numValue;

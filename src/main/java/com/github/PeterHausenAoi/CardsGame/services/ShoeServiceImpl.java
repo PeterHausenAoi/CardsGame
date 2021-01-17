@@ -15,13 +15,15 @@ public class ShoeServiceImpl implements ShoeService {
     private final ShoeRepository shoeRepository;
     private final ShoeDeckRepository shoeDeckRepository;
     private final ShoeCardRepository shoeCardRepository;
+    private final PlayerRepository playerRepository;
 
-    public ShoeServiceImpl(GameRepository gameRepository, DeckRepository deckRepository, ShoeRepository shoeRepository, ShoeDeckRepository shoeDeckRepository, ShoeCardRepository shoeCardRepository) {
+    public ShoeServiceImpl(GameRepository gameRepository, DeckRepository deckRepository, ShoeRepository shoeRepository, ShoeDeckRepository shoeDeckRepository, ShoeCardRepository shoeCardRepository, PlayerRepository playerRepository) {
         this.gameRepository = gameRepository;
         this.deckRepository = deckRepository;
         this.shoeRepository = shoeRepository;
         this.shoeDeckRepository = shoeDeckRepository;
         this.shoeCardRepository = shoeCardRepository;
+        this.playerRepository = playerRepository;
     }
 
     @Override
@@ -73,5 +75,37 @@ public class ShoeServiceImpl implements ShoeService {
         }
 
         shoeCardRepository.saveAll(shoeCards);
+    }
+
+    @Override
+    public ShoeCard dealToPlayer(Long gameID, Long playerID) throws Exception {
+        Optional<Game> optGame = gameRepository.findById(gameID);
+
+        if (!optGame.isPresent()){
+            //TODO make exception
+            throw new Exception("game not found");
+        }
+
+        Optional<Player> optPlayer = playerRepository.findById(playerID);
+
+        if (!optPlayer.isPresent()){
+            //TODO make exception
+            throw new Exception("player not found");
+        }
+
+        Player player = optPlayer.get();
+
+        Optional<ShoeCard> optShoeCard = shoeCardRepository.getNextCard(gameID);
+
+        if(!optShoeCard.isPresent()){
+            return null;
+        }
+
+        ShoeCard shoeCard = optShoeCard.get();
+
+        shoeCard.setPlayer(player);
+        shoeCardRepository.save(shoeCard);
+
+        return shoeCard;
     }
 }

@@ -1,5 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.controllers;
 
+import com.github.PeterHausenAoi.CardsGame.models.ShoeCard;
 import com.github.PeterHausenAoi.CardsGame.services.ShoeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,9 @@ public class ShoeController {
     }
 
     @PostMapping(value = "/deal/{playerID}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public String dealToPlayer(@PathVariable Long gameID, @PathVariable Long playerID){
-        return "";
+    public ShoeCard dealToPlayer(@PathVariable Long gameID, @PathVariable Long playerID) throws Exception {
+        ShoeCard card = shoeService.dealToPlayer(gameID, playerID);
+        return card;
     }
 
     @PostMapping(value = "/shuffle", produces = "application/json")

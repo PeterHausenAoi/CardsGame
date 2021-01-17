@@ -22,6 +22,11 @@ public class Game extends BaseEntity {
         super(id);
     }
 
+    /**
+     * Highest deal order for cards in a game.
+     * Required for having valid deal orders for cards that have not been shuffled yet in order to avoid unexpected behaviour.
+     * @return Highest deal order for cards in game
+     */
     public Long findMaxOrdinalPosition(){
         Long maxOrdinalPosition = -1L;
 

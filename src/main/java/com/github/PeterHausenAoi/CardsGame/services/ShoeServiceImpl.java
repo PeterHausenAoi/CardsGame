@@ -29,6 +29,9 @@ public class ShoeServiceImpl implements ShoeService {
         this.playerRepository = playerRepository;
     }
 
+    /**
+     * Adds cards from a deck to a game with valid deal orders
+     */
     @Transactional(rollbackOn = {SQLException.class})
     @Override
     public void addDeckToShoe(Long gameID, Long deckID) throws NotFoundException, ValidationException {
@@ -59,6 +62,10 @@ public class ShoeServiceImpl implements ShoeService {
         shoeCardRepository.saveAll(shoeCards);
     }
 
+    /**
+     * Deals the next card to a given player
+     * Discarded cards are not being redealt.
+     */
     @Transactional(rollbackOn = {SQLException.class})
     @Override
     public ShoeCard dealToPlayer(Long gameID, Long playerID) throws NotFoundException {
@@ -79,6 +86,9 @@ public class ShoeServiceImpl implements ShoeService {
         return shoeCard;
     }
 
+    /**
+     * Fisher–Yates shuffle algorithm
+     */
     @Transactional(rollbackOn = {SQLException.class})
     @Override
     public void shuffleShoe(Long gameID) throws NotFoundException {

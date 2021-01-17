@@ -19,6 +19,9 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
+    /**
+     * Adds player to a game
+     */
     @PostMapping(value = "/", produces = "application/json")
     public Player createPlayer(@PathVariable Long gameID) throws NotFoundException {
         Player player = new Player();
@@ -26,6 +29,9 @@ public class PlayerController {
         return player;
     }
 
+    /**
+     * Removes player from a game
+     */
     @DeleteMapping(value = "/{playerID}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public String deletePlayer(@PathVariable Long gameID, @PathVariable Long playerID) throws NotFoundException {
@@ -33,11 +39,18 @@ public class PlayerController {
         return "OK";
     }
 
+    /**
+     * Get the list of cards for a player
+     */
     @GetMapping(value = "/{playerID}/cards", produces = "application/json")
     public List<PlayerCard> getPlayerCards(@PathVariable Long gameID, @PathVariable Long playerID) throws NotFoundException {
         return playerService.getPlayerCards(gameID, playerID);
     }
 
+    /**
+     * Get the list of players in a game along with the total added value of all the cards each
+     * player holds;
+     */
     @GetMapping(value = "/states", produces = "application/json")
     public List<PlayerState> getPlayerStates(@PathVariable Long gameID) throws NotFoundException {
         return playerService.getPlayerStates(gameID);

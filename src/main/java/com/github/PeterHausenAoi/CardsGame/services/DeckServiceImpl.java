@@ -29,6 +29,9 @@ public class DeckServiceImpl implements DeckService {
         this.deckCardRepository = deckCardRepository;
     }
 
+    /**
+     * Stores cards for deck alongside the deck itself
+     */
     @Transactional(rollbackOn = {SQLException.class})
     @Override
     public Deck save(Deck deck) {

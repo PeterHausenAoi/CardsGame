@@ -20,11 +20,17 @@ public class SuitController {
         this.suitService = suitService;
     }
 
+    /**
+     * Get the count of how many cards per suit are left undealt in the game deck
+     */
     @GetMapping(value = "/undealt_suit_meta", produces = "application/json")
     public List<UndealtSuitMeta> getUndealtSuitMeta(@PathVariable Long gameID) throws NotFoundException {
         return suitService.getUndealtSuitMeta(gameID);
     }
 
+    /**
+     * Get the count of each card (suit and value) remaining in the game deck sorted by suit and face value
+     */
     @GetMapping(value = "/undealt_card_meta", produces = "application/json")
     public List<UndealtCardMeta> getUndealtCardMeta(@PathVariable Long gameID) throws NotFoundException {
         return suitService.getUndealtCardMeta(gameID);

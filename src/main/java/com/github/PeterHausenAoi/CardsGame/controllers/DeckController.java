@@ -15,6 +15,9 @@ public class DeckController {
         this.deckService = deckService;
     }
 
+    /**
+     * Creates a deck
+     */
     @PostMapping(value = "/", produces = "application/json")
     public Deck createDeck(){
         Deck deck = new Deck();

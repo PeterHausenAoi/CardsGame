@@ -61,6 +61,9 @@ public class PlayerServiceImpl implements PlayerService{
         )).collect(Collectors.toList());
     }
 
+    /**
+     * Deletes player and discards their cards
+     */
     @Transactional(rollbackOn = {SQLException.class})
     @Override
     public void delete(Long gameID, Long playerID) throws NotFoundException {

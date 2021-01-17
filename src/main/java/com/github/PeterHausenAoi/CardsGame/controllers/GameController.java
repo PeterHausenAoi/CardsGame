@@ -15,6 +15,9 @@ public class GameController {
         this.gameService = gameService;
     }
 
+    /**
+     * Creates game
+     */
     @PostMapping(value = "/", produces = "application/json")
     public Game createGame(){
         Game game = new Game();
@@ -23,6 +26,9 @@ public class GameController {
         return game;
     }
 
+    /**
+     * Deletes game
+     */
     @DeleteMapping(value = "/{gameID}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public String deleteGame(@PathVariable Long gameID) throws NotFoundException {

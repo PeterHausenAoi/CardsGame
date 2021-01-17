@@ -16,6 +16,9 @@ public class ShoeController {
         this.shoeService = shoeService;
     }
 
+    /**
+     * Add a deck to a game deck
+     */
     @PostMapping(value = "/add_deck/{deckID}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public String addDeckToShoe(@PathVariable Long gameID, @PathVariable Long deckID) throws NotFoundException, ValidationException {
@@ -23,11 +26,17 @@ public class ShoeController {
         return "OK";
     }
 
+    /**
+     * Deal cards to a player in a game from the game deck
+     */
     @PostMapping(value = "/deal/{playerID}", produces = "application/json")
     public ShoeCard dealToPlayer(@PathVariable Long gameID, @PathVariable Long playerID) throws NotFoundException {
         return shoeService.dealToPlayer(gameID, playerID);
     }
 
+    /**
+     * Shuffle the game deck (shoe)
+     */
     @PostMapping(value = "/shuffle", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public String shuffleShoe(@PathVariable Long gameID) throws NotFoundException {

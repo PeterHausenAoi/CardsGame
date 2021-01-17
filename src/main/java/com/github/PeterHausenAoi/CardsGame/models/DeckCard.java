@@ -2,6 +2,7 @@ package com.github.PeterHausenAoi.CardsGame.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -61,4 +62,26 @@ public class DeckCard extends BaseEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), cardSuitID, cardValueID);
     }
+
+//    @ManyToOne
+//    private CardSuit cardSuit;
+//
+//    public CardSuit getCardSuit() {
+//        return cardSuit;
+//    }
+//
+//    public void setCardSuit(CardSuit manyToOne) {
+//        this.cardSuit = manyToOne;
+//    }
+//
+//    @ManyToOne
+//    private CardValue cardValue;
+//
+//    public CardValue getCardValue() {
+//        return cardValue;
+//    }
+//
+//    public void setCardValue(CardValue manyToOne) {
+//        this.cardValue = manyToOne;
+//    }
 }

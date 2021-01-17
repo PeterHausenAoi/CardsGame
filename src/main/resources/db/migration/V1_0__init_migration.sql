@@ -43,6 +43,7 @@ CREATE TABLE shoes (
 
 CREATE TABLE shoe_decks (
 	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	shoe_id int4 NOT NULL,
 	deck_id int4 NOT NULL,
 	CONSTRAINT shoe_decks_pkey PRIMARY KEY (id)
 );
@@ -64,6 +65,7 @@ ALTER TABLE players ADD CONSTRAINT fk_players_game_id FOREIGN KEY (game_id) REFE
 
 ALTER TABLE shoes ADD CONSTRAINT fk_shoes_game_id FOREIGN KEY (game_id) REFERENCES games(id);
 
+ALTER TABLE shoe_decks ADD CONSTRAINT fk_shoes_shoe_id FOREIGN KEY (shoe_id) REFERENCES shoes(id);
 ALTER TABLE shoe_decks ADD CONSTRAINT fk_shoe_decks_deck_id FOREIGN KEY (deck_id) REFERENCES decks(id);
 
 ALTER TABLE shoe_cards ADD CONSTRAINT fk_shoe_cards_shoe_deck_id FOREIGN KEY (shoe_deck_id) REFERENCES shoe_decks(id);
@@ -77,6 +79,7 @@ create index players_game_id_idx on players(game_id);
 
 create index shoes_card_game_id_idx on shoes(game_id);
 
+create index shoe_decks_shoe_id_idx on shoe_decks(shoe_id);
 create index shoe_decks_deck_id_idx on shoe_decks(deck_id);
 
 create index shoe_cards_shoe_deck_id_idx on shoe_cards(shoe_deck_id);

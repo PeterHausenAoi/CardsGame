@@ -2,6 +2,7 @@ package com.github.PeterHausenAoi.CardsGame.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -44,4 +45,15 @@ public class Shoe extends BaseEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), gameID);
     }
+
+//    @ManyToOne
+//    private Game game;
+//
+//    public Game getGame() {
+//        return game;
+//    }
+//
+//    public void setGame(Game manyToOne) {
+//        this.game = manyToOne;
+//    }
 }

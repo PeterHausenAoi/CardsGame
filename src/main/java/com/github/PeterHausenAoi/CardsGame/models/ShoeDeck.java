@@ -11,6 +11,9 @@ public class ShoeDeck extends BaseEntity{
     @Column(name = "deck_id")
     private Long deckID;
 
+    @Column(name = "shoe_id")
+    private Long shoeID;
+
     public ShoeDeck() {
     }
 

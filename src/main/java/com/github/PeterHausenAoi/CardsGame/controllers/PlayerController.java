@@ -1,8 +1,11 @@
 package com.github.PeterHausenAoi.CardsGame.controllers;
 
 import com.github.PeterHausenAoi.CardsGame.models.Player;
+import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerCard;
 import com.github.PeterHausenAoi.CardsGame.services.PlayerService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/games/{gameID}/players")
@@ -26,8 +29,8 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/{playerID}/cards", produces = "application/json")
-    public String getPlayerCards(@PathVariable Long gameID, @PathVariable Long playerID){
-        return "";
+    public List<PlayerCard> getPlayerCards(@PathVariable Long gameID, @PathVariable Long playerID) throws Exception {
+        return playerService.getPlayerCards(gameID, playerID);
     }
 
     @GetMapping(value = "/states", produces = "application/json")

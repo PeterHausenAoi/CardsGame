@@ -66,13 +66,6 @@ public class DeckCard extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        DeckCard deckCard = (DeckCard) o;
-        return Objects.equals(deck, deckCard.deck) && Objects.equals(cardSuit, deckCard.cardSuit) && Objects.equals(cardValue, deckCard.cardValue);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), deck, cardSuit, cardValue);
+        return !super.equals(o);
     }
 }

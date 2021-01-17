@@ -2,12 +2,17 @@ package com.github.PeterHausenAoi.CardsGame.services;
 
 import com.github.PeterHausenAoi.CardsGame.models.Game;
 import com.github.PeterHausenAoi.CardsGame.models.Player;
+import com.github.PeterHausenAoi.CardsGame.models.ShoeCard;
+import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerCard;
 import com.github.PeterHausenAoi.CardsGame.repositories.GameRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.PlayerRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.ShoeCardRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerServiceImpl implements PlayerService{
@@ -23,18 +28,52 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public Player save(Player player, Long gameID) throws Exception {
-        Optional<Game> OptGame = gameRepository.findById(gameID);
+        Optional<Game> optGame = gameRepository.findById(gameID);
 
-        if (!OptGame.isPresent()){
+        if (!optGame.isPresent()){
             //TODO make exception
             throw new Exception("game not found");
         }
 
-        Game game = OptGame.get();
-        player.setGame(game);;
+        Game game = optGame.get();
+        player.setGame(game);
 
         playerRepository.save(player);
 
         return player;
+    }
+
+    @Override
+    public List<PlayerCard> getPlayerCards(Long gameID, Long playerID) throws Exception {
+        Optional<Game> optGame = gameRepository.findById(gameID);
+
+        if (!optGame.isPresent()){
+            //TODO make exception
+            throw new Exception("game not found");
+        }
+
+        Optional<Player> optPlayer = playerRepository.findById(playerID);
+
+        if(!optPlayer.isPresent()){
+            throw new Exception("player not found");
+        }
+
+        Player player = optPlayer.get();
+
+        List<PlayerCard> playerCards = new ArrayList<>();
+
+        for (ShoeCard shoeCard : player.getShoeCards()){
+            playerCards.add(new PlayerCard(shoeCard.getDeckCard().getCardSuit().getName(),
+                    shoeCard.getDeckCard().getCardValue().getName(),
+                    shoeCard.getDeckCard().getCardValue().getValue()));
+        }
+
+        return playerCards;
+
+        // stackoverflow ???
+        //        return player.getShoeCards().stream().map(shoeCard ->
+        //                new PlayerCard(shoeCard.getDeckCard().getCardSuit().getName(),
+        //                        shoeCard.getDeckCard().getCardValue().getName(),
+        //                        shoeCard.getDeckCard().getCardValue().getValue())).collect(Collectors.toList());
     }
 }

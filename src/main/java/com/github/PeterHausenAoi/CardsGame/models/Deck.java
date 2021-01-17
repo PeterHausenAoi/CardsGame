@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,21 +20,18 @@ public class Deck extends BaseEntity{
         super(id);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
     public Set<DeckCard> getDeckCards() {
         return deckCards;
     }
 
     public void setDeckCards(Set<DeckCard> deckCards) {
         this.deckCards = deckCards;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return !super.equals(o);
     }
 }

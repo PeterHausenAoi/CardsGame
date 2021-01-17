@@ -95,13 +95,6 @@ public class ShoeCard extends  BaseEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        ShoeCard shoeCard = (ShoeCard) o;
-        return Objects.equals(shoeDeck, shoeCard.shoeDeck) && Objects.equals(deckCard, shoeCard.deckCard) && Objects.equals(player, shoeCard.player) && Objects.equals(ordinalPosition, shoeCard.ordinalPosition) && Objects.equals(discarded, shoeCard.discarded);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), shoeDeck, deckCard, player, ordinalPosition, discarded);
+        return !super.equals(o);
     }
 }

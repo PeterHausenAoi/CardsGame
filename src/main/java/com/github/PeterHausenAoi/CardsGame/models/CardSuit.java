@@ -52,13 +52,6 @@ public class CardSuit extends BaseEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        CardSuit cardSuit = (CardSuit) o;
-        return Objects.equals(name, cardSuit.name) && Objects.equals(ordinalPosition, cardSuit.ordinalPosition);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), name, ordinalPosition);
+        return !super.equals(o);
     }
 }

@@ -64,13 +64,6 @@ public class ShoeDeck extends BaseEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        ShoeDeck shoeDeck = (ShoeDeck) o;
-        return Objects.equals(deck, shoeDeck.deck) && Objects.equals(shoe, shoeDeck.shoe);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), deck, shoe);
+        return !super.equals(o);
     }
 }

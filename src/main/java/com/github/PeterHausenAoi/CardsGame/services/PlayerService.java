@@ -11,4 +11,5 @@ public interface PlayerService {
     Player save(Player player, Long gameID) throws Exception;
     List<PlayerCard> getPlayerCards(Long gameID, Long playerID) throws Exception;
     List<PlayerState> getPlayerStates(Long gameID) throws Exception;
+    void delete(Long gameID, Long playerID) throws Exception;
 }

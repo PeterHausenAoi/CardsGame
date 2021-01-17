@@ -9,6 +9,8 @@ import com.github.PeterHausenAoi.CardsGame.repositories.PlayerRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.ShoeCardRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,5 +82,27 @@ public class PlayerServiceImpl implements PlayerService{
                 player.getId(),
                 player.getShoeCards().stream().mapToLong(value -> value.getDeckCard().getCardValue().getValue()).sum()
         )).collect(Collectors.toList());
+    }
+
+    @Transactional(rollbackOn = {SQLException.class})
+    @Override
+    public void delete(Long gameID, Long playerID) throws Exception {
+        Optional<Game> optGame = gameRepository.findById(gameID);
+
+        if (!optGame.isPresent()){
+            //TODO make exception
+            throw new Exception("game not found");
+        }
+
+        Optional<Player> optPlayer = playerRepository.findById(playerID);
+
+        if(!optPlayer.isPresent()){
+            throw new Exception("player not found");
+        }
+
+        shoeCardRepository.discardPlayerCards(playerID);
+
+        Player player = optPlayer.get();
+        playerRepository.delete(player);
     }
 }

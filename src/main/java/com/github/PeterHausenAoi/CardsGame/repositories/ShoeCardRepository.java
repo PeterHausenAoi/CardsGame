@@ -1,6 +1,7 @@
 package com.github.PeterHausenAoi.CardsGame.repositories;
 
 import com.github.PeterHausenAoi.CardsGame.models.ShoeCard;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,14 @@ public interface ShoeCardRepository extends CrudRepository<ShoeCard, Long> {
             "order by\n" +
             "\tsc.ordinal_position limit 1", nativeQuery = true)
     Optional<ShoeCard> getNextCard(@Param("gameID") Long gameID);
+
+    @Modifying
+    @Query(value = "update \n" +
+                    "\tshoe_cards \n" +
+                    "set\n" +
+                    "\tplayer_id = null,\n" +
+                    "\tdiscarded = true \n" +
+                    "where\n" +
+                    "\tplayer_id = :playerID", nativeQuery = true)
+    void discardPlayerCards(@Param("playerID") Long playerID);
 }

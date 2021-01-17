@@ -4,6 +4,7 @@ import com.github.PeterHausenAoi.CardsGame.models.Player;
 import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerCard;
 import com.github.PeterHausenAoi.CardsGame.models.messages.PlayerState;
 import com.github.PeterHausenAoi.CardsGame.services.PlayerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +26,10 @@ public class PlayerController {
     }
 
     @DeleteMapping(value = "/{playerID}", produces = "application/json")
-    public String deletePlayer(@PathVariable Long gameID, @PathVariable Long playerID){
-        return "";
+    @ResponseStatus(HttpStatus.OK)
+    public String deletePlayer(@PathVariable Long gameID, @PathVariable Long playerID) throws Exception {
+        playerService.delete(gameID, playerID);
+        return "OK";
     }
 
     @GetMapping(value = "/{playerID}/cards", produces = "application/json")

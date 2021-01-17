@@ -1,10 +1,11 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
 import com.github.PeterHausenAoi.CardsGame.models.ShoeCard;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
+import com.github.PeterHausenAoi.CardsGame.models.exceptions.ValidationException;
 
 public interface ShoeService {
-    void addDeckToShoe(Long gameID, Long deckID) throws Exception;
-    ShoeCard dealToPlayer(Long gameID, Long playerID) throws Exception;
-    void shuffleShoe(Long gameID) throws Exception;
+    void addDeckToShoe(Long gameID, Long deckID) throws NotFoundException, ValidationException;
+    ShoeCard dealToPlayer(Long gameID, Long playerID) throws NotFoundException;
+    void shuffleShoe(Long gameID) throws NotFoundException;
 }

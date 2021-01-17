@@ -1,11 +1,14 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "players")
+@JsonIgnoreProperties({ "game", "shoeCards"})
 public class Player extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id", nullable = false)

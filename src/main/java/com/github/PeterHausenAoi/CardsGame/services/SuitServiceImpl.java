@@ -1,6 +1,7 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
 import com.github.PeterHausenAoi.CardsGame.models.Game;
+import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
 import com.github.PeterHausenAoi.CardsGame.models.messages.UndealtCardMeta;
 import com.github.PeterHausenAoi.CardsGame.models.messages.UndealtSuitMeta;
 import com.github.PeterHausenAoi.CardsGame.repositories.CardSuitRepository;
@@ -21,26 +22,24 @@ public class SuitServiceImpl implements SuitService{
     }
 
     @Override
-    public List<UndealtSuitMeta> getUndealtSuitMeta(Long gameID) throws Exception {
-        Optional<Game> optGame = gameRepository.findById(gameID);
-
-        if (!optGame.isPresent()){
-            //TODO make exception
-            throw new Exception("game not found");
-        }
-
-        return cardSuitRepository.getUndealtSuitMeta(gameID);
+    public List<UndealtSuitMeta> getUndealtSuitMeta(Long gameID) throws NotFoundException {
+        Game game = findGame(gameID);
+        return cardSuitRepository.getUndealtSuitMeta(game.getId());
     }
 
     @Override
-    public List<UndealtCardMeta> getUndealtCardMeta(Long gameID) throws Exception {
+    public List<UndealtCardMeta> getUndealtCardMeta(Long gameID) throws NotFoundException {
+        Game game = findGame(gameID);
+        return cardSuitRepository.getUndealtCardMeta(game.getId());
+    }
+
+    private Game findGame(Long gameID) throws NotFoundException {
         Optional<Game> optGame = gameRepository.findById(gameID);
 
         if (!optGame.isPresent()){
-            //TODO make exception
-            throw new Exception("game not found");
+            throw new NotFoundException("Game not found");
         }
 
-        return cardSuitRepository.getUndealtCardMeta(gameID);
+        return optGame.get();
     }
 }

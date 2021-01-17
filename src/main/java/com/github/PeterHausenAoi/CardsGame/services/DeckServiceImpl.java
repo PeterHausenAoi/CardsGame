@@ -10,6 +10,8 @@ import com.github.PeterHausenAoi.CardsGame.repositories.DeckCardRepository;
 import com.github.PeterHausenAoi.CardsGame.repositories.DeckRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class DeckServiceImpl implements DeckService {
         this.deckCardRepository = deckCardRepository;
     }
 
+    @Transactional(rollbackOn = {SQLException.class})
     @Override
     public Deck save(Deck deck) {
         deckRepository.save(deck);

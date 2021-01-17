@@ -1,6 +1,7 @@
 package com.github.PeterHausenAoi.CardsGame.controllers;
 
 import com.github.PeterHausenAoi.CardsGame.models.Game;
+import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
 import com.github.PeterHausenAoi.CardsGame.services.GameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class GameController {
 
     @DeleteMapping(value = "/{gameID}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteGame(@PathVariable Long gameID) throws Exception {
+    public String deleteGame(@PathVariable Long gameID) throws NotFoundException {
         gameService.delete(gameID);
         return "OK";
     }

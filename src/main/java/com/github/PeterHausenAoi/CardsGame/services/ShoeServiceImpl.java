@@ -1,9 +1,13 @@
 package com.github.PeterHausenAoi.CardsGame.services;
 
 import com.github.PeterHausenAoi.CardsGame.models.*;
+import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
+import com.github.PeterHausenAoi.CardsGame.models.exceptions.ValidationException;
 import com.github.PeterHausenAoi.CardsGame.repositories.*;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,58 +17,35 @@ import java.util.Random;
 public class ShoeServiceImpl implements ShoeService {
     private final GameRepository gameRepository;
     private final DeckRepository deckRepository;
-    private final ShoeRepository shoeRepository;
     private final ShoeDeckRepository shoeDeckRepository;
     private final ShoeCardRepository shoeCardRepository;
     private final PlayerRepository playerRepository;
 
-    public ShoeServiceImpl(GameRepository gameRepository, DeckRepository deckRepository, ShoeRepository shoeRepository, ShoeDeckRepository shoeDeckRepository, ShoeCardRepository shoeCardRepository, PlayerRepository playerRepository) {
+    public ShoeServiceImpl(GameRepository gameRepository, DeckRepository deckRepository, ShoeDeckRepository shoeDeckRepository, ShoeCardRepository shoeCardRepository, PlayerRepository playerRepository) {
         this.gameRepository = gameRepository;
         this.deckRepository = deckRepository;
-        this.shoeRepository = shoeRepository;
         this.shoeDeckRepository = shoeDeckRepository;
         this.shoeCardRepository = shoeCardRepository;
         this.playerRepository = playerRepository;
     }
 
+    @Transactional(rollbackOn = {SQLException.class})
     @Override
-    public void addDeckToShoe(Long gameID, Long deckID) throws Exception {
-        Optional<Game> OptGame = gameRepository.findById(gameID);
-
-        if (!OptGame.isPresent()){
-            //TODO make exception
-            throw new Exception("game not found");
-        }
-
-        Optional<Deck> OptDeck = deckRepository.findById(deckID);
-
-        if (!OptDeck.isPresent()){
-            //TODO make exception
-            throw new Exception("deck not found");
-        }
-
-        Game game = OptGame.get();
-        Deck deck = OptDeck.get();
+    public void addDeckToShoe(Long gameID, Long deckID) throws NotFoundException, ValidationException {
+        Game game = findGame(gameID);
+        Deck deck = findDeck(deckID);
 
         if(game.getShoe() == null){
-            throw new Exception("shoe not found");
+            throw new NotFoundException("Shoe not found");
         }
 
         Optional<ShoeDeck> optPrevShoeDeck = shoeDeckRepository.findByDeckId(deckID);
 
         if (optPrevShoeDeck.isPresent()){
-            throw new Exception("deck already added to game");
+            throw new ValidationException("Deck already added to game");
         }
 
-        Long maxOrdinalPosition = -1L;
-
-        for(ShoeDeck shoeDeck : game.getShoe().getShoeDecks()){
-            for (ShoeCard shoeCard : shoeDeck.getShoeCards()){
-                if (shoeCard.getOrdinalPosition() > maxOrdinalPosition){
-                    maxOrdinalPosition = shoeCard.getOrdinalPosition();
-                }
-            }
-        }
+        Long maxOrdinalPosition = game.findMaxOrdinalPosition();
 
         ShoeDeck shoeDeck = new ShoeDeck(deck, game.getShoe());
         shoeDeckRepository.save(shoeDeck);
@@ -78,23 +59,11 @@ public class ShoeServiceImpl implements ShoeService {
         shoeCardRepository.saveAll(shoeCards);
     }
 
+    @Transactional(rollbackOn = {SQLException.class})
     @Override
-    public ShoeCard dealToPlayer(Long gameID, Long playerID) throws Exception {
-        Optional<Game> optGame = gameRepository.findById(gameID);
-
-        if (!optGame.isPresent()){
-            //TODO make exception
-            throw new Exception("game not found");
-        }
-
-        Optional<Player> optPlayer = playerRepository.findById(playerID);
-
-        if (!optPlayer.isPresent()){
-            //TODO make exception
-            throw new Exception("player not found");
-        }
-
-        Player player = optPlayer.get();
+    public ShoeCard dealToPlayer(Long gameID, Long playerID) throws NotFoundException {
+        findGame(gameID);
+        Player player = findPlayer(playerID);
 
         Optional<ShoeCard> optShoeCard = shoeCardRepository.getNextCard(gameID);
 
@@ -110,18 +79,12 @@ public class ShoeServiceImpl implements ShoeService {
         return shoeCard;
     }
 
+    @Transactional(rollbackOn = {SQLException.class})
     @Override
-    public void shuffleShoe(Long gameID) throws Exception {
-        Optional<Game> optGame = gameRepository.findById(gameID);
-
-        if (!optGame.isPresent()){
-            //TODO make exception
-            throw new Exception("game not found");
-        }
-
+    public void shuffleShoe(Long gameID) throws NotFoundException {
+        Game game = findGame(gameID);
         List<ShoeCard> unusedCards = new ArrayList<>();
 
-        Game game = optGame.get();
         game.getShoe().getShoeDecks().forEach(shoeDeck ->
             shoeDeck.getShoeCards().stream().filter(
                     shoeCard -> !shoeCard.getDiscarded() && shoeCard.getPlayer() == null
@@ -145,5 +108,35 @@ public class ShoeServiceImpl implements ShoeService {
         }
 
         shoeCardRepository.saveAll(unusedCards);
+    }
+
+    private Deck findDeck(Long deckID) throws NotFoundException {
+        Optional<Deck> optDeck = deckRepository.findById(deckID);
+
+        if (!optDeck.isPresent()){
+            throw new NotFoundException("Deck not found");
+        }
+
+        return optDeck.get();
+    }
+
+    private Game findGame(Long gameID) throws NotFoundException {
+        Optional<Game> optGame = gameRepository.findById(gameID);
+
+        if (!optGame.isPresent()){
+            throw new NotFoundException("Game not found");
+        }
+
+        return optGame.get();
+    }
+
+    private Player findPlayer(Long playerID) throws NotFoundException {
+        Optional<Player> optPlayer = playerRepository.findById(playerID);
+
+        if(!optPlayer.isPresent()){
+            throw new NotFoundException("Player not found");
+        }
+
+        return optPlayer.get();
     }
 }

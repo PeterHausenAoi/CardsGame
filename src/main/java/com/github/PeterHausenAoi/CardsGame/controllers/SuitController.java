@@ -1,5 +1,6 @@
 package com.github.PeterHausenAoi.CardsGame.controllers;
 
+import com.github.PeterHausenAoi.CardsGame.models.exceptions.NotFoundException;
 import com.github.PeterHausenAoi.CardsGame.models.messages.UndealtCardMeta;
 import com.github.PeterHausenAoi.CardsGame.models.messages.UndealtSuitMeta;
 import com.github.PeterHausenAoi.CardsGame.services.SuitService;
@@ -20,12 +21,12 @@ public class SuitController {
     }
 
     @GetMapping(value = "/undealt_suit_meta", produces = "application/json")
-    public List<UndealtSuitMeta> getUndealtSuitMeta(@PathVariable Long gameID) throws Exception {
+    public List<UndealtSuitMeta> getUndealtSuitMeta(@PathVariable Long gameID) throws NotFoundException {
         return suitService.getUndealtSuitMeta(gameID);
     }
 
     @GetMapping(value = "/undealt_card_meta", produces = "application/json")
-    public List<UndealtCardMeta> getUndealtCardMeta(@PathVariable Long gameID) throws Exception {
+    public List<UndealtCardMeta> getUndealtCardMeta(@PathVariable Long gameID) throws NotFoundException {
         return suitService.getUndealtCardMeta(gameID);
     }
 }

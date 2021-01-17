@@ -1,16 +1,20 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "games")
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"shoe", "players"})
 public class Game extends BaseEntity {
     @OneToOne(mappedBy = "game", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Shoe Shoe;
+    private Shoe shoe;
+
+    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Player> players;
 
     public Game() {
     }
@@ -19,12 +23,26 @@ public class Game extends BaseEntity {
         super(id);
     }
 
+    public Long findMaxOrdinalPosition(){
+        Long maxOrdinalPosition = -1L;
+
+        for(ShoeDeck shoeDeck : getShoe().getShoeDecks()){
+            for (ShoeCard shoeCard : shoeDeck.getShoeCards()){
+                if (shoeCard.getOrdinalPosition() > maxOrdinalPosition){
+                    maxOrdinalPosition = shoeCard.getOrdinalPosition();
+                }
+            }
+        }
+
+        return maxOrdinalPosition;
+    }
+
     public Shoe getShoe() {
-        return Shoe;
+        return shoe;
     }
 
     public void setShoe(Shoe shoe) {
-        Shoe = shoe;
+        this.shoe = shoe;
     }
 
     @Override

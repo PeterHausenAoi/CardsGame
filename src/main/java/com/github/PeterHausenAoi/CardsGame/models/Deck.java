@@ -28,4 +28,12 @@ public class Deck extends BaseEntity{
     public int hashCode() {
         return super.hashCode();
     }
+
+    public Set<DeckCard> getDeckCards() {
+        return deckCards;
+    }
+
+    public void setDeckCards(Set<DeckCard> deckCards) {
+        this.deckCards = deckCards;
+    }
 }

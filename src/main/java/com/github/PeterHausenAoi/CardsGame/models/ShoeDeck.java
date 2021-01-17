@@ -1,37 +1,51 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "shoe_decks")
 public class ShoeDeck extends BaseEntity{
-    @Column(name = "deck_id")
-    private Long deckID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deck_id", nullable = false)
+    private Deck deck;
 
-    @Column(name = "shoe_id")
-    private Long shoeID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shoe_id", nullable = false)
+    private Shoe shoe;
 
     public ShoeDeck() {
     }
 
-    public ShoeDeck(Long deckID) {
-        this.deckID = deckID;
-    }
-
-    public ShoeDeck(Long id, Long deckID) {
+    public ShoeDeck(Long id) {
         super(id);
-        this.deckID = deckID;
     }
 
-    public Long getDeckID() {
-        return deckID;
+    public ShoeDeck(Deck deck, Shoe shoe) {
+        this.deck = deck;
+        this.shoe = shoe;
     }
 
-    public void setDeckID(Long deckID) {
-        this.deckID = deckID;
+    public ShoeDeck(Long id, Deck deck, Shoe shoe) {
+        super(id);
+        this.deck = deck;
+        this.shoe = shoe;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    public Shoe getShoe() {
+        return shoe;
+    }
+
+    public void setShoe(Shoe shoe) {
+        this.shoe = shoe;
     }
 
     @Override
@@ -40,11 +54,11 @@ public class ShoeDeck extends BaseEntity{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ShoeDeck shoeDeck = (ShoeDeck) o;
-        return Objects.equals(deckID, shoeDeck.deckID);
+        return Objects.equals(deck, shoeDeck.deck) && Objects.equals(shoe, shoeDeck.shoe);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), deckID);
+        return Objects.hash(super.hashCode(), deck, shoe);
     }
 }

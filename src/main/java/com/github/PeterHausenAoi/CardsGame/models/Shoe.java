@@ -1,59 +1,34 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "shoes")
 public class Shoe extends BaseEntity {
-    @Column(name = "game_id")
-    private Long gameID;
+    @OneToOne
+    @JoinColumn(name = "game_id", referencedColumnName = "id")
+    private Game game;
+
+    @OneToMany(mappedBy = "shoe", fetch = FetchType.LAZY)
+    private Set<ShoeDeck> shoeDecks;
 
     public Shoe() {
     }
 
-    public Shoe(Long gameID) {
-        this.gameID = gameID;
-    }
-
-    public Shoe(Long id, Long gameID) {
+    public Shoe(Long id) {
         super(id);
-        this.gameID = gameID;
     }
 
-    public Long getGameID() {
-        return gameID;
+    public Shoe(Game game) {
+        this.game = game;
     }
 
-    public void setGameID(Long gameID) {
-        this.gameID = gameID;
+    public Shoe(Long id, Game game) {
+        super(id);
+        this.game = game;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Shoe shoe = (Shoe) o;
-        return Objects.equals(gameID, shoe.gameID);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), gameID);
-    }
-
-//    @ManyToOne
-//    private Game game;
-//
-//    public Game getGame() {
-//        return game;
-//    }
-//
-//    public void setGame(Game manyToOne) {
-//        this.game = manyToOne;
-//    }
 }

@@ -1,24 +1,25 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "shoe_cards")
 public class ShoeCard extends  BaseEntity{
-    @Column(name = "shoe_deck_id")
-    private Long shoeDeckID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shoe_deck_id", nullable = false)
+    private ShoeDeck shoeDeck;
 
-    @Column(name = "deck_card_id")
-    private Long deckCardID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deck_card_id", nullable = false)
+    private DeckCard deckCard;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_id", nullable = true)
+    private Player player;
 
     @Column(name = "ordinal_position")
     private Long ordinalPosition;
-
-    @Column(name = "player_id")
-    private Long playerID;
 
     @Column(name = "discarded")
     private Boolean discarded;
@@ -30,37 +31,45 @@ public class ShoeCard extends  BaseEntity{
         super(id);
     }
 
-    public ShoeCard(Long shoeDeckID, Long deckCardID, Long ordinalPosition, Long playerID, Boolean discarded) {
-        this.shoeDeckID = shoeDeckID;
-        this.deckCardID = deckCardID;
+    public ShoeCard(ShoeDeck shoeDeck, DeckCard deckCard, Player player, Long ordinalPosition, Boolean discarded) {
+        this.shoeDeck = shoeDeck;
+        this.deckCard = deckCard;
+        this.player = player;
         this.ordinalPosition = ordinalPosition;
-        this.playerID = playerID;
         this.discarded = discarded;
     }
 
-    public ShoeCard(Long id, Long shoeDeckID, Long deckCardID, Long ordinalPosition, Long playerID, Boolean discarded) {
+    public ShoeCard(Long id, ShoeDeck shoeDeck, DeckCard deckCard, Player player, Long ordinalPosition, Boolean discarded) {
         super(id);
-        this.shoeDeckID = shoeDeckID;
-        this.deckCardID = deckCardID;
+        this.shoeDeck = shoeDeck;
+        this.deckCard = deckCard;
+        this.player = player;
         this.ordinalPosition = ordinalPosition;
-        this.playerID = playerID;
         this.discarded = discarded;
     }
 
-    public Long getShoeDeckID() {
-        return shoeDeckID;
+    public ShoeDeck getShoeDeck() {
+        return shoeDeck;
     }
 
-    public void setShoeDeckID(Long shoeDeckID) {
-        this.shoeDeckID = shoeDeckID;
+    public void setShoeDeck(ShoeDeck shoeDeck) {
+        this.shoeDeck = shoeDeck;
     }
 
-    public Long getDeckCardID() {
-        return deckCardID;
+    public DeckCard getDeckCard() {
+        return deckCard;
     }
 
-    public void setDeckCardID(Long deckCardID) {
-        this.deckCardID = deckCardID;
+    public void setDeckCard(DeckCard deckCard) {
+        this.deckCard = deckCard;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Long getOrdinalPosition() {
@@ -69,14 +78,6 @@ public class ShoeCard extends  BaseEntity{
 
     public void setOrdinalPosition(Long ordinalPosition) {
         this.ordinalPosition = ordinalPosition;
-    }
-
-    public Long getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(Long playerID) {
-        this.playerID = playerID;
     }
 
     public Boolean getDiscarded() {
@@ -93,11 +94,11 @@ public class ShoeCard extends  BaseEntity{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ShoeCard shoeCard = (ShoeCard) o;
-        return Objects.equals(shoeDeckID, shoeCard.shoeDeckID) && Objects.equals(deckCardID, shoeCard.deckCardID) && Objects.equals(ordinalPosition, shoeCard.ordinalPosition) && Objects.equals(playerID, shoeCard.playerID) && Objects.equals(discarded, shoeCard.discarded);
+        return Objects.equals(shoeDeck, shoeCard.shoeDeck) && Objects.equals(deckCard, shoeCard.deckCard) && Objects.equals(player, shoeCard.player) && Objects.equals(ordinalPosition, shoeCard.ordinalPosition) && Objects.equals(discarded, shoeCard.discarded);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), shoeDeckID, deckCardID, ordinalPosition, playerID, discarded);
+        return Objects.hash(super.hashCode(), shoeDeck, deckCard, player, ordinalPosition, discarded);
     }
 }

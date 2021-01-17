@@ -1,13 +1,14 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
-
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "games")
 public class Game extends BaseEntity {
+    @OneToOne(mappedBy = "game")
+    private Shoe Shoe;
 
     public Game() {
     }
@@ -24,5 +25,13 @@ public class Game extends BaseEntity {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    public Shoe getShoe() {
+        return Shoe;
+    }
+
+    public void setShoe(Shoe shoe) {
+        Shoe = shoe;
     }
 }

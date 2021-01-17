@@ -23,13 +23,13 @@ public class ShoeController {
 
     @PostMapping(value = "/deal/{playerID}", produces = "application/json")
     public ShoeCard dealToPlayer(@PathVariable Long gameID, @PathVariable Long playerID) throws Exception {
-        ShoeCard card = shoeService.dealToPlayer(gameID, playerID);
-        return card;
+        return shoeService.dealToPlayer(gameID, playerID);
     }
 
     @PostMapping(value = "/shuffle", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public String shuffleShoe(@PathVariable Long gameID){
-        return "";
+    public String shuffleShoe(@PathVariable Long gameID) throws Exception {
+        shoeService.shuffleShoe(gameID);
+        return "OK";
     }
 }

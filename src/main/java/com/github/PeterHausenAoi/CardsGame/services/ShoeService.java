@@ -6,4 +6,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ShoeService {
     void addDeckToShoe(Long gameID, Long deckID) throws Exception;
     ShoeCard dealToPlayer(Long gameID, Long playerID) throws Exception;
+    void shuffleShoe(Long gameID) throws Exception;
 }

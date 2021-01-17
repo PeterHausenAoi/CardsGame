@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class ShoeServiceImpl implements ShoeService {
@@ -107,5 +108,42 @@ public class ShoeServiceImpl implements ShoeService {
         shoeCardRepository.save(shoeCard);
 
         return shoeCard;
+    }
+
+    @Override
+    public void shuffleShoe(Long gameID) throws Exception {
+        Optional<Game> optGame = gameRepository.findById(gameID);
+
+        if (!optGame.isPresent()){
+            //TODO make exception
+            throw new Exception("game not found");
+        }
+
+        List<ShoeCard> unusedCards = new ArrayList<>();
+
+        Game game = optGame.get();
+        game.getShoe().getShoeDecks().forEach(shoeDeck ->
+            shoeDeck.getShoeCards().stream().filter(
+                    shoeCard -> !shoeCard.getDiscarded() && shoeCard.getPlayer() == null
+            ).forEach(unusedCards::add)
+        );
+
+        if (unusedCards.size() == 0){
+            return;
+        }
+
+        Random rand = new Random();
+
+        for (ShoeCard card : unusedCards){
+            int switchPos = rand.nextInt(unusedCards.size());
+
+            ShoeCard other = unusedCards.get(switchPos);
+            Long otherOrdinal = other.getOrdinalPosition();
+            other.setOrdinalPosition(card.getOrdinalPosition());
+
+            card.setOrdinalPosition(otherOrdinal);
+        }
+
+        shoeCardRepository.saveAll(unusedCards);
     }
 }

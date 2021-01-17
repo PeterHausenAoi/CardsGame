@@ -10,6 +10,7 @@ CREATE TABLE decks (
 
 CREATE TABLE deck_cards (
 	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+    deck_id int4 NOT NULL,
 	card_suit_id int4 NOT NULL,
 	card_value_id int4 NOT NULL,
 	CONSTRAINT deck_cards_pkey PRIMARY KEY (id)
@@ -60,6 +61,7 @@ CREATE TABLE shoe_cards (
 
 ALTER TABLE deck_cards ADD CONSTRAINT fk_deck_cards_card_suit_id FOREIGN KEY (card_suit_id) REFERENCES card_suits(id);
 ALTER TABLE deck_cards ADD CONSTRAINT fk_deck_cards_card_value_id FOREIGN KEY (card_value_id) REFERENCES card_values(id);
+ALTER TABLE deck_cards ADD CONSTRAINT fk_deck_cards_card_deck_id FOREIGN KEY (deck_id) REFERENCES deck_cards(id);
 
 ALTER TABLE players ADD CONSTRAINT fk_players_game_id FOREIGN KEY (game_id) REFERENCES games(id);
 
@@ -74,6 +76,7 @@ ALTER TABLE shoe_cards ADD CONSTRAINT fk_shoe_cards_player_id FOREIGN KEY (playe
 
 create index deck_cards_card_suit_id_idx on deck_cards(card_suit_id);
 create index deck_cards_card_value_id_idx on deck_cards(card_value_id);
+create index deck_cards_card_deck_id_idx on deck_cards(deck_id);
 
 create index players_game_id_idx on players(game_id);
 

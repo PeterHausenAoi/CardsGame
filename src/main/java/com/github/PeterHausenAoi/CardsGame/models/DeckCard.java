@@ -1,19 +1,22 @@
 package com.github.PeterHausenAoi.CardsGame.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "deck_cards")
 public class DeckCard extends BaseEntity {
-    @Column(name = "card_suit_id")
-    private Long cardSuitID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deck_id", nullable = false)
+    private Deck deck;
 
-    @Column(name = "card_value_id")
-    private Long cardValueID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_suit_id", nullable = false)
+    private CardSuit cardSuit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_value_id", nullable = false)
+    private CardValue cardValue;
 
     public DeckCard() {
     }
@@ -22,31 +25,41 @@ public class DeckCard extends BaseEntity {
         super(id);
     }
 
-    public DeckCard(Long cardSuitID, Long cardValueID) {
-        this.cardSuitID = cardSuitID;
-        this.cardValueID = cardValueID;
+    public DeckCard(Deck deck, CardSuit cardSuit, CardValue cardValue) {
+        this.deck = deck;
+        this.cardSuit = cardSuit;
+        this.cardValue = cardValue;
     }
 
-    public DeckCard(Long id, Long cardSuitID, Long cardValueID) {
+    public DeckCard(Long id, Deck deck, CardSuit cardSuit, CardValue cardValue) {
         super(id);
-        this.cardSuitID = cardSuitID;
-        this.cardValueID = cardValueID;
+        this.deck = deck;
+        this.cardSuit = cardSuit;
+        this.cardValue = cardValue;
     }
 
-    public Long getCardSuitID() {
-        return cardSuitID;
+    public Deck getDeck() {
+        return deck;
     }
 
-    public void setCardSuitID(Long cardSuitID) {
-        this.cardSuitID = cardSuitID;
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 
-    public Long getCardValueID() {
-        return cardValueID;
+    public CardSuit getCardSuit() {
+        return cardSuit;
     }
 
-    public void setCardValueID(Long cardValueID) {
-        this.cardValueID = cardValueID;
+    public void setCardSuit(CardSuit cardSuit) {
+        this.cardSuit = cardSuit;
+    }
+
+    public CardValue getCardValue() {
+        return cardValue;
+    }
+
+    public void setCardValue(CardValue cardValue) {
+        this.cardValue = cardValue;
     }
 
     @Override
@@ -55,33 +68,11 @@ public class DeckCard extends BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         DeckCard deckCard = (DeckCard) o;
-        return Objects.equals(cardSuitID, deckCard.cardSuitID) && Objects.equals(cardValueID, deckCard.cardValueID);
+        return Objects.equals(deck, deckCard.deck) && Objects.equals(cardSuit, deckCard.cardSuit) && Objects.equals(cardValue, deckCard.cardValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), cardSuitID, cardValueID);
+        return Objects.hash(super.hashCode(), deck, cardSuit, cardValue);
     }
-
-//    @ManyToOne
-//    private CardSuit cardSuit;
-//
-//    public CardSuit getCardSuit() {
-//        return cardSuit;
-//    }
-//
-//    public void setCardSuit(CardSuit manyToOne) {
-//        this.cardSuit = manyToOne;
-//    }
-//
-//    @ManyToOne
-//    private CardValue cardValue;
-//
-//    public CardValue getCardValue() {
-//        return cardValue;
-//    }
-//
-//    public void setCardValue(CardValue manyToOne) {
-//        this.cardValue = manyToOne;
-//    }
 }
